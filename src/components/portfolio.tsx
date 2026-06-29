@@ -135,9 +135,8 @@ const PROJECTS: ProjectItem[] = [
     github: "https://github.com",
     live: "https://example.com",
     liveTitle: "View live demo",
-    video: "/videos/Demo_SketchFlow.mp4",
-    poster:
-      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 280'%3E%3Crect width='400' height='280' fill='%23111'/%3E%3Ccircle cx='200' cy='140' r='30' fill='%232997ff' opacity='0.9'/%3E%3Cpolygon points='190,124 190,156 217,140' fill='%23000'/%3E%3C/svg%3E",
+    video: "https://cdn.sujansinhthakor.com/Demo_SketchFlow.mp4",
+    poster: "/projectPoster/SketchFlow.png",
     featured: true,
   },
   {
@@ -170,9 +169,8 @@ const PROJECTS: ProjectItem[] = [
     github: "https://github.com",
     live: "https://example.com",
     liveTitle: "View live demo",
-    video: "/videos/Demo_ChatPDF.mp4",
-    poster:
-      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 280'%3E%3Crect width='400' height='280' fill='%23111'/%3E%3Ccircle cx='200' cy='140' r='26' fill='%23ff9f0a' opacity='0.9'/%3E%3Cpolygon points='191,126 191,154 215,140' fill='%23000'/%3E%3C/svg%3E",
+    video: "https://cdn.sujansinhthakor.com/Demo_ChatPDF.mp4",
+    poster: "/projectPoster/ChatPDF.png",
   },
 ];
 
@@ -194,10 +192,6 @@ const EXPERIENCE: ExperienceItem[] = [
 const NAV_LINKS = ["about", "skills", "projects", "experience"] as const;
 type SectionId = (typeof NAV_LINKS)[number] | "hero" | "contact";
 
-/* ----------------------------------------------------------------
-   Small shared pieces
------------------------------------------------------------------ */
-
 const TAG_CLASSES: Record<TagColor, string> = {
   blue: "text-[var(--accent)] bg-[rgba(var(--accent-rgb),0.12)]",
   green: "text-[#30d158] bg-[rgba(48,209,88,0.1)]",
@@ -214,12 +208,6 @@ function Tag({ label, color = "blue" }: TagData) {
     </span>
   );
 }
-
-/* Lucide icons are imported at the top of the file */
-
-/* ----------------------------------------------------------------
-   useReveal — scroll-triggered fade/slide-up, pure Tailwind classes
------------------------------------------------------------------ */
 
 function useReveal<T extends HTMLElement>() {
   const ref = useRef<T | null>(null);
@@ -263,12 +251,6 @@ function Reveal({ children, delayMs = 0, className = "" }: RevealProps) {
   );
 }
 
-/* Corner-rounding helper for hairline grids (skills, stats, experience).
-   NOTE: these must be complete, literal Tailwind class names. Building the
-   class by string-concatenation (e.g. "rounded-[18px]".replace(...)) means
-   the literal class never appears anywhere in the source, so Tailwind's
-   compiler never generates the CSS for it — the corners silently stay
-   square. Returning whole literal strings fixes that. */
 function gridCorners(idx: number, total: number, cols: number) {
   const isFirst = idx === 0;
   const isLastOfFirstRow = idx === cols - 1;
@@ -281,13 +263,6 @@ function gridCorners(idx: number, total: number, cols: number) {
     isLast ? "rounded-br-[18px]" : "",
   ].join(" ");
 }
-
-/* ----------------------------------------------------------------
-   AmbientBackground — slow-drifting blurred glows behind the whole page.
-   Kept subtle on purpose (low opacity, very slow, large blur radius) so it
-   reads as atmosphere rather than decoration, and respects
-   prefers-reduced-motion for accessibility.
------------------------------------------------------------------ */
 
 function GlobalStyles() {
   return (
@@ -537,9 +512,12 @@ function About() {
           </p>
 
           <p>
-            Through my {" "}
+            Through my{" "}
             <strong className="font-medium text-[#f5f5f7]">Internships</strong>{" "}
-            , I’ve gained hands-on experience shipping production code, driving team collaboration, and thriving in fast-paced engineering environments. This practical experience is supported by a strong foundation in Data Structures and Algorithms.{" "}
+            , I’ve gained hands-on experience shipping production code, driving
+            team collaboration, and thriving in fast-paced engineering
+            environments. This practical experience is supported by a strong
+            foundation in Data Structures and Algorithms.{" "}
             <strong className="font-medium text-[#f5f5f7]">
               Data Structures & Algorithms.
             </strong>{" "}
@@ -648,11 +626,14 @@ function ProjectCard({
       className={`cursor-pointer group/video relative bg-[#111] overflow-hidden transition-all duration-500 ease-out hover:scale-105 hover:shadow-[0_8px_40px_rgba(var(--accent-rgb),0.15)] ${project.featured ? "border border-white/[0.08] hover:border-white/[0.1] h-full min-h-[260px]" : "aspect-video"}`}
     >
       <video
-        ref={(el) => { if (el) el.playbackRate = 1.5; }} // Adjust this number (1.0 is normal, 1.5 is 50% faster, 2.0 is double speed)
+        ref={(el) => {
+          if (el) el.playbackRate = 1.5;
+        }} // Adjust this number (1.0 is normal, 1.5 is 50% faster, 2.0 is double speed)
         className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover/video:scale-[1.03]"
         autoPlay
         muted
         loop
+        onLoadedData={() => {}}
         playsInline
         preload="metadata"
         poster={project.poster}
@@ -790,7 +771,9 @@ function Projects() {
               ✕
             </button>
             <video
-              ref={(el) => { if (el) el.playbackRate = 1.5; }} // Adjust this number to change modal video speed
+              ref={(el) => {
+                if (el) el.playbackRate = 1.5;
+              }} // Adjust this number to change modal video speed
               className="w-full max-h-[85vh] object-contain bg-black"
               autoPlay
               controls
@@ -832,8 +815,9 @@ function Experience() {
         {EXPERIENCE.map((job, i) => (
           <Reveal key={job.company} delayMs={i * 100}>
             <div
-              className={`bg-[#161616] border border-white/[0.08] px-7 md:px-9 py-8 grid grid-cols-1 md:grid-cols-[200px_1fr_auto] gap-3 md:gap-10 items-start transition-colors hover:bg-[#1c1c1e] ${i === 0 ? "rounded-t-[18px]" : ""
-                } ${i === EXPERIENCE.length - 1 ? "rounded-b-[18px]" : ""}`}
+              className={`bg-[#161616] border border-white/[0.08] px-7 md:px-9 py-8 grid grid-cols-1 md:grid-cols-[200px_1fr_auto] gap-3 md:gap-10 items-start transition-colors hover:bg-[#1c1c1e] ${
+                i === 0 ? "rounded-t-[18px]" : ""
+              } ${i === EXPERIENCE.length - 1 ? "rounded-b-[18px]" : ""}`}
             >
               <div className="text-xs text-[#6e6e73] pt-0.5">{job.period}</div>
               <div>
@@ -848,10 +832,11 @@ function Experience() {
                 </div>
               </div>
               <span
-                className={`text-[11px] font-medium rounded-full px-3 py-1 whitespace-nowrap ${job.current
-                  ? "bg-[rgba(48,209,88,0.12)] text-[#30d158] border border-[rgba(48,209,88,0.2)]"
-                  : "bg-[#111] text-[#6e6e73] border border-white/[0.08]"
-                  }`}
+                className={`text-[11px] font-medium rounded-full px-3 py-1 whitespace-nowrap ${
+                  job.current
+                    ? "bg-[rgba(48,209,88,0.12)] text-[#30d158] border border-[rgba(48,209,88,0.2)]"
+                    : "bg-[#111] text-[#6e6e73] border border-white/[0.08]"
+                }`}
               >
                 {job.current ? "Current" : "Past"}
               </span>
@@ -869,7 +854,11 @@ function Experience() {
 
 function Contact() {
   const links = [
-    { label: "GitHub", href: "https://github.com/Sujansinhthakor", Icon: FaGithub },
+    {
+      label: "GitHub",
+      href: "https://github.com/Sujansinhthakor",
+      Icon: FaGithub,
+    },
     {
       label: "LinkedIn",
       href: "https://www.linkedin.com/in/sujansinh-thakor/",
@@ -885,16 +874,18 @@ function Contact() {
 
   const handleMailTo = async (e?: React.MouseEvent) => {
     if (e) e.preventDefault();
-    await navigator.clipboard.writeText('work@sujansinhthakor.com');
+    await navigator.clipboard.writeText("work@sujansinhthakor.com");
     toast(
       (t) => (
         <div className="flex items-center gap-3">
-          <span className="text-[14px] font-medium text-[#f5f5f7]">Email copied!</span>
+          <span className="text-[14px] font-medium text-[#f5f5f7]">
+            Email copied!
+          </span>
           <button
             onClick={() => {
               window.open(
                 "https://mail.google.com/mail/u/0/#inbox?compose=new",
-                "_blank"
+                "_blank",
               );
               toast.dismiss(t.id);
             }}
@@ -905,14 +896,14 @@ function Contact() {
         </div>
       ),
       {
-        position: 'bottom-right',
+        position: "bottom-right",
         duration: 2000,
         style: {
-          background: '#161616',
-          border: '1px solid rgba(255,255,255,0.08)',
-          padding: '12px 16px',
+          background: "#161616",
+          border: "1px solid rgba(255,255,255,0.08)",
+          padding: "12px 16px",
         },
-      }
+      },
     );
   };
 
@@ -985,7 +976,6 @@ function Footer() {
         >
           Back to top ↑
         </a>
-
       </div>
     </footer>
   );
@@ -1012,7 +1002,6 @@ function hexToRgb(hex: string): string {
   const b = parseInt(hex.slice(5, 7), 16);
   return `${r},${g},${b}`;
 }
-
 
 /* ----------------------------------------------------------------
    Root component
