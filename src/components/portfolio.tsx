@@ -5,9 +5,6 @@ import {
   Zap,
   Wrench,
   Cloud,
-  Bot,
-  Smartphone,
-  ShieldCheck,
   ChevronDown,
   Code2,
   Database,
@@ -979,28 +976,6 @@ function Footer() {
       </div>
     </footer>
   );
-}
-
-/* ----------------------------------------------------------------
-   Accent color picker (dev tool — remove before deploy)
------------------------------------------------------------------ */
-
-const PRESET_COLORS = [
-  { label: "Blue", hex: "#2997ff", rgb: "41,151,255" },
-  { label: "Violet", hex: "#8b5cf6", rgb: "139,92,246" },
-  { label: "Rose", hex: "#f43f5e", rgb: "244,63,94" },
-  { label: "Amber", hex: "#f59e0b", rgb: "245,158,11" },
-  { label: "Cyan", hex: "#06b6d4", rgb: "6,182,212" },
-  { label: "Emerald", hex: "#10b981", rgb: "16,185,129" },
-  { label: "Pink", hex: "#ec4899", rgb: "236,72,153" },
-  { label: "Sky", hex: "#0ea5e9", rgb: "14,165,233" },
-];
-
-function hexToRgb(hex: string): string {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return `${r},${g},${b}`;
 }
 
 /* ----------------------------------------------------------------
