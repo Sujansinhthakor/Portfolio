@@ -47,7 +47,7 @@ interface ExperienceItem {
   period: string;
   role: string;
   company: string;
-  desc: string;
+  desc: string[];
   current?: boolean;
 }
 
@@ -173,16 +173,16 @@ const PROJECTS: ProjectItem[] = [
 
 const EXPERIENCE: ExperienceItem[] = [
   {
-    period: "October 2025 — March 2026",
+    period: "October 2025 - March 2026",
     role: "Full Stack Engineer Intern",
     company: "ORIM Advisory Pvt Ltd",
-    desc: "Led the redesign of the core issue tracking engine, improving performance 3× for teams with 10k+ issues. Mentored 4 junior engineers and drove technical direction for the integrations team.",
+    desc: ["ORIM CRM : Migrated all client and employee operations from Excel to a MERN + Docker web application", "Centralized client profiles, KYC documents, and leads, with role-based access control for every employee", "Synced live portfolios for 1000+ clients via scheduled batch processing to avoid external API rate limits", "IRPR Platform : Built an investor management system with a real-time analytics dashboard and campaign tracking", "Managed 5000+ investors via server-side pagination and bulk .xlsx import/export, cutting manual entry by 80–90%"],
   },
   {
-    period: "March 2025 — June 2025",
+    period: "March 2025 - June 2025",
     role: "Full Stack Developer Intern",
     company: "Idna Enterprises",
-    desc: "Built infrastructure tooling and developer-facing APIs for the Edge Runtime. Contributed to open-source Next.js and reduced cold start times by 40% across the platform.",
+    desc: ["Engineered an automated pipeline using Node.js and Express.js to ingest data from external financial APIs into MongoDB", "Built a responsive React.js interface styled with Tailwind CSS to visualize complex financial metrics for stakeholders", "Integrated TanStack Query for optimized data fetching, efficiently managing 6,000+ records via server-side pagination"],
   },
 ];
 
@@ -630,7 +630,7 @@ function ProjectCard({
         autoPlay
         muted
         loop
-        onLoadedData={() => {}}
+        onLoadedData={() => { }}
         playsInline
         preload="metadata"
         poster={project.poster}
@@ -812,9 +812,8 @@ function Experience() {
         {EXPERIENCE.map((job, i) => (
           <Reveal key={job.company} delayMs={i * 100}>
             <div
-              className={`bg-[#161616] border border-white/[0.08] px-7 md:px-9 py-8 grid grid-cols-1 md:grid-cols-[200px_1fr_auto] gap-3 md:gap-10 items-start transition-colors hover:bg-[#1c1c1e] ${
-                i === 0 ? "rounded-t-[18px]" : ""
-              } ${i === EXPERIENCE.length - 1 ? "rounded-b-[18px]" : ""}`}
+              className={`bg-[#161616] border border-white/[0.08] px-7 md:px-9 py-8 grid grid-cols-1 md:grid-cols-[200px_1fr_auto] gap-3 md:gap-10 items-start transition-colors hover:bg-[#1c1c1e] ${i === 0 ? "rounded-t-[18px]" : ""
+                } ${i === EXPERIENCE.length - 1 ? "rounded-b-[18px]" : ""}`}
             >
               <div className="text-xs text-[#6e6e73] pt-0.5">{job.period}</div>
               <div>
@@ -825,15 +824,14 @@ function Experience() {
                   {job.company}
                 </div>
                 <div className="text-[13px] text-[#6e6e73] leading-[1.7] ">
-                  {job.desc}
+                  {job.desc.map((i) => <p>{"• "}{i}</p>)}
                 </div>
               </div>
               <span
-                className={`text-[11px] font-medium rounded-full px-3 py-1 whitespace-nowrap ${
-                  job.current
-                    ? "bg-[rgba(48,209,88,0.12)] text-[#30d158] border border-[rgba(48,209,88,0.2)]"
-                    : "bg-[#111] text-[#6e6e73] border border-white/[0.08]"
-                }`}
+                className={`text-[11px] font-medium rounded-full px-3 py-1 whitespace-nowrap ${job.current
+                  ? "bg-[rgba(48,209,88,0.12)] text-[#30d158] border border-[rgba(48,209,88,0.2)]"
+                  : "bg-[#111] text-[#6e6e73] border border-white/[0.08]"
+                  }`}
               >
                 {job.current ? "Current" : "Past"}
               </span>
